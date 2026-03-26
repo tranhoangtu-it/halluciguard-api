@@ -25,8 +25,12 @@ class Settings:
     usage_limit_pro: int = 50000
     usage_limit_enterprise: int = -1  # unlimited
 
-    # Demo API keys for MVP (in production, use a database)
+    # Demo API keys (fallback when Supabase is not configured)
     demo_api_keys: dict[str, str] = field(default_factory=dict)
+
+    # Supabase
+    supabase_url: str = ""
+    supabase_service_key: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -39,6 +43,8 @@ class Settings:
                 "hg_demo_pro_key_2026": "pro",
                 os.getenv("HG_ADMIN_KEY", "hg_admin_secret_2026"): "enterprise",
             },
+            supabase_url=os.getenv("SUPABASE_URL", ""),
+            supabase_service_key=os.getenv("SUPABASE_SERVICE_KEY", ""),
         )
 
 
